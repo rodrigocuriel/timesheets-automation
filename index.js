@@ -1,8 +1,9 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
-const credentials = {
+const config = {
   username: process.env.USERNAME,
-  password: process.env.PASSWORD
+  password: process.env.PASSWORD,
+  INNOTAS_URL: process.env.INNOTAS_URL
 };
 
 (async () => {
@@ -13,17 +14,17 @@ const credentials = {
   const page = pages[0];
   // await page.setViewport({ width: 1024, height: 768 })
 
-  await page.goto('https://ulta.innotas.com/home.pa#%5BT1%2CM640%5D');
+  await page.goto(config.INNOTAS_URL);
 
   await page.waitForSelector('title');
   const title = await page.title();
   console.info(`The title is: ${title}`);
 
   await page.focus('#userNameInput');
-  await page.keyboard.type(credentials.username);
+  await page.keyboard.type(config.username);
 
   await page.focus('#passwordInput');
-  await page.keyboard.type(credentials.password);
+  await page.keyboard.type(config.password);
 
   await page.click('#submitButton', { delay: 300 });
 
